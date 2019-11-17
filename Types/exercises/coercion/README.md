@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+- [Working With Coercion](#working-with-coercion)
+  - [Instructions](#instructions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Working With Coercion
 
 In this exercise, you will define some validation functions that check user inputs (such as from DOM elements). You'll need to properly handle the coercions of the various value types.

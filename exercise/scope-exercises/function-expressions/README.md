@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+- [Function Expressions](#function-expressions)
+  - [Instructions (Part 1)](#instructions-part-1)
+  - [Instructions (Part 2)](#instructions-part-2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Function Expressions
 
 In this exercise, you will be writing some functions and function expressions, to manage the student enrollment records for a workshop.

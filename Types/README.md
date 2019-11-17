@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+  - [Issues:](#issues)
+- [Type System](#type-system)
+  - [Primitive Types](#primitive-types)
+  - [Weird Types](#weird-types)
+  - [Undefined vs Undeclared](#undefined-vs-undeclared)
+  - [Special Values](#special-values)
+  - [Polyfill Pattern](#polyfill-pattern)
+  - [Fundemental Objects](#fundemental-objects)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ### Issues:
 - In Javascript, `variables` don't have types, `values` have.
 - In Javascript, "every thing is a an object" was **wrong**

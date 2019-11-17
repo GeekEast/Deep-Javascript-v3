@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+- [Wrangling Equality](#wrangling-equality)
+  - [Instructions](#instructions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Wrangling Equality
 
 In this exercise, you will define a `findAll(..)` function that searches an array and returns an array with all coercive matches.

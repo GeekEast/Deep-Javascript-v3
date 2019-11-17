@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+- [Modules](#modules)
+  - [Instructions](#instructions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Modules
 
 In this exercise, you will refactor some code that manages student enrollment records for a workshop, to use the module pattern.

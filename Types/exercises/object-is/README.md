@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table Of Content
+
+- [Polyfill for `Object.is(..)`](#polyfill-for-objectis)
+  - [Instructions](#instructions)
+  - [Polyfill Pattern](#polyfill-pattern)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Polyfill for `Object.is(..)`
 
 In this exercise, you will define a polyfill for `Object.is(..)`. No cheating and looking it up online!
