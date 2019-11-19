@@ -4,8 +4,13 @@
 
 - [Scope](#scope)
   - [Compiler vs Interpreter](#compiler-vs-interpreter)
-  - [Units of Scope](#units-of-scope)
+  - [How](#how)
+  - [Left and Right Position](#left-and-right-position)
+    - [Compile Time](#compile-time)
+    - [Run Time](#run-time)
+    - [parameter vs argument](#parameter-vs-argument)
   - [Lexical Scope](#lexical-scope)
+  - [More Example](#more-example)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -14,16 +19,15 @@
 - Hoisting(提升)
 - Closure（闭包）
 - Modules（模块）
+
 ### Compiler vs Interpreter
 - `Compilter`: compile source code to machine code and run
 - `Interpreter`: interpret and run the code at the same time
 - [Reference](https://www.zhihu.com/question/21486706)
-- In javascript,during the **compiling** stage, **scopes** will be identified (`bucket and marbles will be places correctly`)
+> Javascript is **not** `interpreted` langauage. It's a `compiled` language with `two pass processing`. One is compling the code and declare all the **scope** and **left hand things**. Another is evaluating the **right hand things** and run the code eventually.
 
-### Units of Scope
-- functions
-- blocks
-
+### How
+- [Step](https://frontendmasters.com/courses/deep-javascript-v3/lexical-scope-review/)
 ```javascript
 // declare teacher in global scope
 var teacher = 'kyle'
@@ -51,6 +55,19 @@ ask();
 ```
 - **Shadowing**: have two variables in **different** scopes with the **same** name
 > All the scopes are determined at `compile` time rather than `run` time. 
+
+
+### Left and Right Position
+- **Left**: the variable to be signed a value to
+- **Right**: the value to be assigned to a varibale.
+#### Compile Time
+- declare the left side things
+#### Run Time
+- execute the right side things
+#### parameter vs argument
+- **parameter**: left side thing for obtaining values
+- **argument**: right side thing for extracting values
+
 ### Lexical Scope
 - AkA: static scope
 ```c
@@ -83,3 +100,54 @@ void dummy2()
 }
 ```
 > The first one is called static because it can be **deduced at compile-time**, the second is called **dynamic** because the outer scope is dynamic and depends **on the chain call of the functions**.
+
+### More Example
+- When strict mode off
+```javascript
+var teacher = "kyle";
+
+function otherClass() {
+  teacher = "Suzy";
+  // will automatcially declare a variable in global scope
+  topic = "React";
+  console.log("Welcome!");
+}
+
+otherClass();
+
+teacher; // Suzy
+topic; // "React"
+```
+- When strict mode on
+```javascript
+"use strict";
+var teacher = "kyle";
+
+function otherClass() {
+  teacher = "Suzy";
+  // will throw a ReferenceError
+  topic = "React";
+  console.log("Welcome!");
+}
+
+otherClass();
+
+teacher; // Suzy
+topic; // "React"
+```
+- Nested Scope
+  - Javascript will do `upwards` binding -> **elevator**
+  - Javascript won't do `downwards` binding
+```javascript
+var teacher = "kyle";
+function otherClass() {
+  var teacher = "Suzy";
+  function ask(question){
+    console.log(teacher, question);
+  }
+  ask("Why?");
+}
+
+otherCkass();
+ask("???") // referenceError
+```
