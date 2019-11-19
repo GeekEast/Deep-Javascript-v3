@@ -6,6 +6,7 @@
   - [`==` vs `===`](#-vs-)
     - [`==` allows for coercion](#-allows-for-coercion)
     - [`===` disallows for coercion](#-disallows-for-coercion)
+  - [Summary](#summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -13,7 +14,7 @@
 ## Abstract Equality Comparison
 ### `==` vs `===`
 - [SPEC](https://www.ecma-international.org/ecma-262/9.0/#sec-abstract-equality-comparison)
-> Only use the `==` when you know the type
+> Only use the `==` when you know the type especially when implicit coercion is very helpful.
 #### `==` allows for coercion
 - `null` equal to `undefined`.
 ```javascript
@@ -37,4 +38,9 @@ if (Number(ele1) === Number(ele2))
 if (ele1 == ele2)
 ```
 ####  `===` disallows for coercion
-- use `===` is very safe
+- use `===` is safe because it's for the case that **you don't know the types**.
+> But `implicit coercion` is fastet than you do that.
+
+### Summary
+- If you know the types, `==` is better.
+- Otherwise you clould use `===` for safety.
