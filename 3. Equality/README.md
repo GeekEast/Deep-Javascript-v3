@@ -44,3 +44,4 @@ if (ele1 == ele2)
 ### Summary
 - If you know the types, `==` is better.
 - Otherwise you clould use `===` for safety.
+> Be careful of `-0` when you use implicit `coercion`
