@@ -1,6 +1,7 @@
 function isValidName(name) {
 	if (
-		typeof name == "string" &&
+    typeof name == "string" &&
+    // trim has no  effect on \n
 		name.trim().length >= 3
 	) {
 		return true;
@@ -8,6 +9,7 @@ function isValidName(name) {
 
 	return false;
 }
+
 
 function hoursAttended(attended,length) {
 	if (

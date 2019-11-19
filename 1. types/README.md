@@ -29,7 +29,7 @@
 - undeclared (not object)
 - null (subtype of **object**)
 - function: (not object)
-- array: (subtype of object)
+- array: (subtype of **object**)
 - BigInt: Will be added in the future (not object)
 
 ```javascript
