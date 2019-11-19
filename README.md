@@ -4,6 +4,7 @@
 
 - [Reference](#reference)
 - [Functional Programming](#functional-programming)
+- [Typescript](#typescript)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -18,3 +19,7 @@
   
 ### Functional Programming
 > extract side effect rather than terminate it
+
+### Typescript
+> Typescript define the type
+> Kyle tells you to know types before using them.
