@@ -11,6 +11,14 @@
     - [parameter vs argument](#parameter-vs-argument)
   - [Lexical Scope](#lexical-scope)
   - [More Example](#more-example)
+- [Function expression](#function-expression)
+  - [Function declaration](#function-declaration)
+  - [Function Expression](#function-expression)
+    - [Named Function Expression](#named-function-expression)
+    - [Anonymous Function Expression](#anonymous-function-expression)
+    - [Prefer the Named Function Expression](#prefer-the-named-function-expression)
+  - [Arrow Functions](#arrow-functions)
+  - [Function Types Hierarchy](#function-types-hierarchy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -151,3 +159,38 @@ function otherClass() {
 otherCkass();
 ask("???") // referenceError
 ```
+## Function expression
+
+### Function declaration
+- function teacher is declared in **global** scope
+```javascript
+function teacher() {/*...*/}
+```
+### Function Expression
+- myTeacher is declared in the **global** scope
+- but function `anotherTeacher` is declared in the **myTeacher** scope
+```javascript
+var myTeacher = function anotherTeacher() {
+  console.log(anotherTeacher);
+}
+```
+#### Named Function Expression
+```javascript
+var keyHandler = function keyHandler(){}
+```
+#### Anonymous Function Expression
+```javascript
+var clickHandler = function() {}
+```
+#### Prefer the Named Function Expression
+- Reason 1: Self-reference for **recursion**
+- Reason 2: More **debuggable** stack traces
+- Reason 3: More **self-documenting** code
+
+### Arrow Functions
+- Not recommended by Kyle...
+```javascript
+const go = () => {/*..*/}
+```
+### Function Types Hierarchy
+**Function Declaration** `>` **Named Function Express** `>` **Anonymous Function Expression**

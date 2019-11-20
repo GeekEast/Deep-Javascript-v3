@@ -1,5 +1,5 @@
 function printRecords(recordIds) {
-	// TODO
+  recordIds.find(record => true)
 }
 
 function paidStudentsToEnroll() {
