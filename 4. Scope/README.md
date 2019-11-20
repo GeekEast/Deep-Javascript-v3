@@ -21,6 +21,11 @@
   - [Function Types Hierarchy](#function-types-hierarchy)
   - [Immediately Invoked Function Expression](#immediately-invoked-function-expression)
 - [Block Scoping](#block-scoping)
+  - [IIFE](#iife)
+  - [Using Block to create a new scope by using `const` or `let`](#using-block-to-create-a-new-scope-by-using-const-or-let)
+  - [`let` vs `var`](#let-vs-var)
+  - [`const`](#const)
+- [Hoisting](#hoisting)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -229,7 +234,7 @@ var teacher = (
 ```
 
 ## Block Scoping
-- IIFE
+### IIFE
 ```javascript
 var teacher = 'Kyle';
 (function anotherTeachter(){
@@ -239,7 +244,48 @@ var teacher = 'Kyle';
 
 console.log(teacher);
 ```
-- Using Block
+### Using Block to create a new scope by using `const` or `let`
+> Not all `{}` creates scopes if they didn't use `const` or `let`
 ```javascript
+var teacher = "Kyle";
+// the same way to avoid name collision
+{
+  let teacher = "Suzy"; // have const or let is the necessary to make it a as a scope
+  console.log(teacher)
+}
 
+console.log(teacher);
 ```
+### `let` and `const` shows this is a new scope!
+```javascript
+function diff(x,y){
+  if (x > y){
+    // let make if statement as a new scope
+    let tmp = x;
+    x = y;
+    y = tmp;
+  }
+  return y-x;
+}
+```
+### `let` vs `var`
+- use `let` in block scope
+- use `var` for reusing, `let` cannot do the same thing
+```javascript
+function lookUpRecord(searchStr){
+  try {
+    // var shows this is not block scope! id belongs to function scope!
+    var id = getRecord( searchStr );
+  } catch (err) {
+    var id = -1;
+  }
+  return id; // will not be undefined.
+}
+```
+### `const`
+- only use `const` for **primitive immutable** values, just like `final` in Java
+- For **non-primitive** types, `const` means this variable cannot be **reassigned**. But it can be changed. So you don't have to use `const`.
+- use `Object.freeze()` to make an object final in `strict-mode`
+ 
+
+## Hoisting
