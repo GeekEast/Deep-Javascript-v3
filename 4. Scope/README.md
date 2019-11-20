@@ -19,6 +19,8 @@
     - [Prefer the Named Function Expression](#prefer-the-named-function-expression)
   - [Arrow Functions](#arrow-functions)
   - [Function Types Hierarchy](#function-types-hierarchy)
+  - [Immediately Invoked Function Expression](#immediately-invoked-function-expression)
+- [Block Scoping](#block-scoping)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -78,6 +80,7 @@ ask();
 
 ### Lexical Scope
 - AkA: static scope
+- The scope is decided during the **compile** stage
 ```c
 void fun()
 {
@@ -89,6 +92,7 @@ void fun()
 }
 ```
 - dynamic scope
+- The scope is decided in the **run** stage, depends on the call chain of method.
 ```c
 void fun()
 {
@@ -107,7 +111,6 @@ void dummy2()
     fun();
 }
 ```
-> The first one is called static because it can be **deduced at compile-time**, the second is called **dynamic** because the outer scope is dynamic and depends **on the chain call of the functions**.
 
 ### More Example
 - When strict mode off
@@ -194,3 +197,49 @@ const go = () => {/*..*/}
 ```
 ### Function Types Hierarchy
 **Function Declaration** `>` **Named Function Express** `>` **Anonymous Function Expression**
+
+### Immediately Invoked Function Expression
+```javascript
+var teacher = 'Kyle';
+// IIFE
+(function anotherTeacher(){
+  var teacher = "Suzy";
+  console.log(teacher);
+})();
+console.log(teacher);
+```
+- normal way of doing async/await with try/catch
+```javascript
+var teacher;
+try {
+  teacher = fetchTeacher()
+}catch (err) {
+  return 'kyle';
+}
+```
+- make assignment happens only once
+```javascript
+var teacher = (
+  try {
+    return fetchTeacher();
+  }catch(err){
+    return 'kyle';
+  }
+)()
+```
+
+## Block Scoping
+- IIFE
+```javascript
+var teacher = 'Kyle';
+(function anotherTeachter(){
+  var teacher = 'Suzy';
+  console.log(teacher)
+})();
+
+console.log(teacher);
+```
+- Using Block
+```javascript
+
+```
