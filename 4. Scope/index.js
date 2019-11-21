@@ -1,6 +1,7 @@
-var getId  = function getStudentId(){
-  const x = 1;
-  console.log(this === global);
-}
 
-getId();   
+function foo () {
+  console.log(a);
+}
+let a = 20;
+foo();  // This is perfectly valid
+

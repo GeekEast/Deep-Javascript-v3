@@ -26,6 +26,10 @@
   - [`let` vs `var`](#let-vs-var)
   - [`const`](#const)
 - [Hoisting](#hoisting)
+  - [Hoisting as described](#hoisting-as-described)
+  - [Hoisting in Reality](#hoisting-in-reality)
+  - [Hoist on function declaration](#hoist-on-function-declaration)
+  - [`let` doesn't hosit -> False](#let-doesnt-hosit---false)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -289,3 +293,67 @@ function lookUpRecord(searchStr){
  
 
 ## Hoisting
+- Hoisting doesn't exist in Javascript Engine
+- Hoisting is a convention that we have made up to discuss the idea of lexical scope without thinking about lexical scope.
+### Hoisting as described
+```javascript
+student;
+teacher;
+student = 'you';
+teacher = 'kyle';
+```
+- hositing to top
+```javascript
+var student;
+var teacher;
+student = 'you';
+teacher = 'kyle';
+```
+### Hoisting in Reality
+- javascript engine does not re-organize your code and do the hoisting
+- javascript only parse the code in a different way
+
+### Hoist on function declaration
+```javascript
+teacher();
+otherTeacher();
+
+function teacher() {
+  return 'Kyle';
+}
+
+var otherTeacher = function() {
+  return 'Suzy';
+}
+```
+- What happened behind?
+```javascript
+function teacher() {
+  return 'Kyle';
+}
+
+var otherTeacher;
+
+teacher();
+otherTeacher(); // TypeError
+
+otherTeacher = function() {
+  return "Suzy";
+}
+```
+
+### `let` doesn't hosit -> False
+- `let` and `const` will hoist but to be **unintialized**
+```javascript
+{
+  teacher = 'Kyle'; // TDZ error
+  let teacher;
+}
+```
+```javascript
+function foo () {
+  console.log(a);
+}
+let a = 20;
+foo();  // This is perfectly valid
+```
