@@ -8,6 +8,7 @@
 - [Module Pattern](#module-pattern)
   - [Namespace Pattern](#namespace-pattern)
   - [Revealing Pattern](#revealing-pattern)
+  - [ES6 Module](#es6-module)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -105,4 +106,33 @@ var workshop = (function Module(teacher){
   }
 })("Kyle");
 workshop.ask("It's a module, right?");
+```
+### Factory Pattern
+```javascript
+function WorkshopModule(teacher) {
+  var public API = {ask, };
+  return publicAPI;
+
+  function ask(question){
+    console.log(teacher, question);
+  }
+};
+
+var workshop = WorkshopModule("Kyle");
+workshop.ask("It's a module, right?");
+```
+
+### ES6 Module
+- This is **singleton** export.
+```javascript
+var teacher = "Kyle"; // automatically private
+
+export default function ask(question){ // as public with closure on private things.
+  console.log(teacher, question); 
+}
+```
+- Import
+```javascript
+import ask from 'workshop.js';
+import * as ask from 'workshop.js';
 ```
