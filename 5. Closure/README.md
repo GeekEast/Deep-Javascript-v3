@@ -5,6 +5,9 @@
 - [Closure](#closure)
   - [Close over variables rather than values](#close-over-variables-rather-than-values)
   - [Classical Interview Question](#classical-interview-question)
+- [Module Pattern](#module-pattern)
+  - [Namespace Pattern](#namespace-pattern)
+  - [Revealing Pattern](#revealing-pattern)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -60,4 +63,46 @@ for (var i=1; i<=3;i++){
     console.log(`j: ${j}`)
   }, j * 1000);
 }
+```
+- First one, **only** one variables and closed over the only value
+- Second one, **three** variables and closed over respectively.
+```javascript
+for (let i=1; i<=3; i++){
+  setTimeout(function() {
+    console.log(`i: ${i}`)
+  }, i * 1000);
+}
+```
+
+## Module Pattern
+- Make state as **Private**
+- Make function as **Public**
+- Implementation: **Closure**.
+### Namespace Pattern
+- Problem: You can still access the teacher directly
+```javascript
+var workshop = {
+  teacher: "Kyel",
+  ask(question){
+    // this means 
+    console.log(this.teacher, question);
+  },
+};
+
+workshop.ask("Is this a module?");
+```
+### Revealing Pattern
+> Module encapsulate `data` and `behavior` together. The state of a module is held by its methods via **closure**.
+- use `IIFE` for **singleton**
+```javascript
+var workshop = (function Module(teacher){
+  var publicAPI = { ask, };
+  return publicAPI;
+
+  // *****************
+  function ask(question){
+    console.log(teacher, question);
+  }
+})("Kyle");
+workshop.ask("It's a module, right?");
 ```

@@ -1,6 +1,10 @@
-for (var i=1; i<=3;i++){
-  let j = i;
-  setTimeout(function() {
-    console.log(`j: ${j}`)
-  }, j * 1000);
-}
+var workshop = (function Module(teacher){
+  var publicAPI = { ask, };
+  return publicAPI;
+
+  // *****************
+  function ask(question){
+    console.log(teacher, question);
+  }
+})("Kyle");
+workshop.ask("It's a module, right?");
