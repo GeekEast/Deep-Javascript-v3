@@ -6,6 +6,7 @@
 - [Functional Programming](#functional-programming)
 - [Typescript](#typescript)
 - [解决浮点问题](#%E8%A7%A3%E5%86%B3%E6%B5%AE%E7%82%B9%E9%97%AE%E9%A2%98)
+- [Issues](#issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -29,3 +30,7 @@
 ```javascript
 Math.abs(0.3 - (0.1+0.2)) < 1e-6
 ```
+
+### Issues
+<div style="text-align:center; margin:auto"><img src="img/2019-11-24-01-10-06.png"></div>
+<div style="text-align:center; margin:auto"><img src="img/2019-11-24-01-11-06.png"></div>
