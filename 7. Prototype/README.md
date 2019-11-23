@@ -40,7 +40,7 @@ reactJS.ask("React JS");
 - `contructor` is only a name, it's not like the constructor in other programming language, like `java`
 - **Contructor** function has only `one` instance, **prototype** only has `one` instance, but the objects, essentially the `execution context` has `many`.
 - 对象创建的过程，其实是创建同一构造器，不同execution context的过程。
-<div style="text-align:center; margin:auto"><img src="img/2019-11-24-01-39-47.png"></div>
+<div style="text-align:center; margin:auto"><img src="img/2019-11-24-01-39-47.png"></div> 
 ```javascript
 function Workshop(teacher){
   this.teacher = teacher;
