@@ -10,6 +10,11 @@
     - [Binding Override](#binding-override)
     - [`prototype` on Arrow Function](#prototype-on-arrow-function)
     - [`this` vs `super`](#this-vs-super)
+  - [Shadow Prototypes](#shadow-prototypes)
+    - [Infinit Recursion Issue](#infinit-recursion-issue)
+    - [Fix infinite recursion](#fix-infinite-recursion)
+  - [Inheritance](#inheritance)
+    - [Prototypal Inheritance](#prototypal-inheritance)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -73,4 +78,77 @@ Object.getPrototypeOf(deepJS) === Workshop.prototype; // true
 
 #### `this` vs `super`
 - `super` is determined during complilation time
+
+### Shadow Prototypes
+- **shadow** means **override**.
+#### Infinit Recursion Issue
+```javascript
+function Workshop(teacher) {
+  this.teacher = teacher;
+}
+
+Workshop.prototype.ask = function(question){
+  console.log(this.teacher, question);
+}
+
+var deepJS = new Workshop("Kyle");
+// 
+deepJS.ask = function(question){
+  // this refers to deepJS
+  this.ask(question.toUpperCase());
+}
+
+deepJS.ask("Oops, is this infinite recursion?") // yes!
+```
+#### Fix infinite recursion
+```javascript
+function Workshop(teacher) {
+  this.teacher = teacher;
+}
+
+Workshop.prototype.ask = function(question){
+  console.log(this.teacher, question);
+}
+
+var deepJS = new Workshop("Kyle");
+deepJS.ask = function(question){
+  this.__proto__.ask.call(this,question.toUpperCase());
+}
+
+deepJS.ask("Oops, is this infinite recursion?") // No!
+```
+
+### Inheritance
+#### Prototypal Inheritance
+> 原型链向上查找的过程并不会改变this的指向
+```javascript
+// constructor
+function Workshop(teacher){
+  this.teacher = teacher;
+}
+// prototype
+Workshop.prototype.ask = function(question){
+  console.log(this.teacher, question);
+}
+
+// link constructor: 仅仅改变指向
+function AnotherWorkshop(teacher){
+  Workshop.call(this, teacher);
+}
+
+// link prototype： 
+AnotherWorkshop.prototype = Object.create(Workshop.prototype);
+
+AnotherWorkshop.prototype.speakUp = function(msg){
+  this.ask(msg.toUppderCase());
+}
+var JSRecentParts = new AnotherWorkshop('Kyle');
+JSRecentParts.speakUp('Is this actually inheritance?');
+```
+<div style="text-align:center; margin:auto"><img src="img/2019-11-24-14-50-18.png"></div>
+
+#### Class Inheritanace
+- Class Inheritanace **copies** objects;
+- Prototypal inhertiace **links** objects.
+<div style="text-align:center; margin:auto"><img src="img/2019-11-24-16-38-51.png"></div>
 
