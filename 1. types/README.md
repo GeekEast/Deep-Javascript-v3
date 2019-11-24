@@ -3,6 +3,7 @@
 ## Table Of Content
 
 - [Types](#types)
+  - [**Primitive Types**](#primitive-types)
   - [**Object**](#object)
   - [Quick Example](#quick-example)
 - [Emptiness](#emptiness)
@@ -16,6 +17,7 @@
 
 ### Types
 > In Javascript, statement "every thing is a an object" is **wrong**. Primitive types are not objects. But some of them can **behave** like objects.
+
 #### [**Primitive Types**](https://www.ecma-international.org/ecma-262/9.0/#sec-primitive-value)
 > In Javascript, `variable` doesn't have types, `value` have.
 - `Undefined`: **created** but has **no** value; **default** value
