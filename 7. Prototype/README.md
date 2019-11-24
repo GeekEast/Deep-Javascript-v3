@@ -152,3 +152,5 @@ JSRecentParts.speakUp('Is this actually inheritance?');
 - Prototypal inhertiace **links** objects.
 <div style="text-align:center; margin:auto"><img src="img/2019-11-24-16-38-51.png"></div>
 
+#### Delegation Pattern
+- The **prototype** system follows the **delegation** pattern rather than the traditional `class` pattern
