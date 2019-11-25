@@ -3,18 +3,20 @@
 ## Table Of Content
 
 - [Closure](#closure)
-  - [Close over variables rather than values](#close-over-variables-rather-than-values)
-  - [Classical Interview Question](#classical-interview-question)
+  - [Examples](#examples)
+  - [Close over What?](#close-over-what)
+  - [Interview Questions](#interview-questions)
 - [Module Pattern](#module-pattern)
-  - [Namespace Pattern](#namespace-pattern)
-  - [Revealing Pattern](#revealing-pattern)
+  - [Factory Pattern](#factory-pattern)
   - [ES6 Module](#es6-module)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Closure
+### Closure
 > Closure is when a function "remembers" its' **lexical scope** even when the function is executed **outside** the lexical scope.
-### Example 1
+
+#### Examples
+- **Example 1**
 ```javascript
 function ask(question){
   // waitASec close over the variable called question.
@@ -23,9 +25,9 @@ function ask(question){
   }, 100);
 }
 
-aks("What is closure?");
+ask("What is closure?");
 ```
-### Example 2
+- **Example 2**
 ```javascript
 function ask(question){
   // question is preserved with the function called holdYourQuestion()
@@ -33,12 +35,14 @@ function ask(question){
     console.log(question);
   }
 }
-
 var myQuestion = ask("What is closure");
-
 myQuestions();
 ```
-### Close over variables rather than values
+<!-- more -->
+
+#### Close over What?
+> Close over variables rather than values
+
 ```javascript
 var teacher = 'Kyle';
 var myTeacher = function() {
@@ -48,7 +52,8 @@ var myTeacher = function() {
 teacher = "Suzy"
 myTeacher(); // live link!
 ```
-### Classical Interview Question
+#### Interview Questions
+- Output?
 ```javascript
 for (var i = 1; i<=3; i++){
   setTimeout(function(){
@@ -56,7 +61,7 @@ for (var i = 1; i<=3; i++){
   }, i * 1000);
 }
 ```
-- What's the difference and why?
+- Output?
 ```javascript
 for (var i=1; i<=3;i++){
   let j = i;
@@ -65,8 +70,7 @@ for (var i=1; i<=3;i++){
   }, j * 1000);
 }
 ```
-- First one, **only** one variables and closed over the only value
-- Second one, **three** variables and closed over respectively.
+- Output?
 ```javascript
 for (let i=1; i<=3; i++){
   setTimeout(function() {
@@ -74,13 +78,17 @@ for (let i=1; i<=3; i++){
   }, i * 1000);
 }
 ```
+- Why?
+> - First one, **only** one variables and closed over the only value
+> - Second one, **three** variables and closed over respectively.
 
-## Module Pattern
-- Make state as **Private**
-- Make function as **Public**
-- Implementation: **Closure**.
-### Namespace Pattern
-- Problem: You can still access the teacher directly
+### Module Pattern
+> Similar to `encapsulation`
+> - Make state as **Private**
+> - Make function as **Public**
+> - Prerequisite: **Closure**.
+#### Namespace Pattern
+> Problem: You can still access the teacher directly
 ```javascript
 var workshop = {
   teacher: "Kyel",
@@ -92,7 +100,8 @@ var workshop = {
 
 workshop.ask("Is this a module?");
 ```
-### Revealing Pattern
+
+#### Revealing Pattern
 > Module encapsulate `data` and `behavior` together. The state of a module is held by its methods via **closure**.
 - use `IIFE` for **singleton**
 ```javascript
@@ -107,7 +116,8 @@ var workshop = (function Module(teacher){
 })("Kyle");
 workshop.ask("It's a module, right?");
 ```
-### Factory Pattern
+
+#### Factory Pattern
 ```javascript
 function WorkshopModule(teacher) {
   var public API = {ask, };
@@ -122,7 +132,7 @@ var workshop = WorkshopModule("Kyle");
 workshop.ask("It's a module, right?");
 ```
 
-### ES6 Module
+#### ES6 Module
 - This is **singleton** export.
 ```javascript
 var teacher = "Kyle"; // automatically private
