@@ -2,41 +2,37 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table Of Content
 
-- [Object](#object)
-  - [`this`](#this)
-    - [! Dynamic Scope](#-dynamic-scope)
-    - [Using `this`](#using-this)
-    - [Namespace Pattern](#namespace-pattern)
-    - [Namespace Pattern: Implicit Binding](#namespace-pattern-implicit-binding)
-    - [`call()`](#call)
-    - [`bind()`](#bind)
-    - [Summary](#summary)
-  - [`new`](#new)
-    - [Procedure](#procedure)
-  - [Fallback](#fallback)
-  - [Precedence](#precedence)
-  - [Arrow Function](#arrow-function)
-    - [`!this`](#this)
-    - [Is Object Scope?](#is-object-scope)
-    - [`super` keyword](#super-keyword)
-    - [`this` still dynamic](#this-still-dynamic)
-    - [Save Class `this`](#save-class-this)
-  - [](#)
-- [Guesses](#guesses)
-  - [difference between `var x` amd `x`](#difference-between-var-x-amd-x)
-  - [Interview Question](#interview-question)
-  - [One interesting thing](#one-interesting-thing)
+- [`this`](#this)
+  - [Scope and Closure](#scope-and-closure)
+  - [Object and `this`](#object-and-this)
+  - [Namespace Pattern](#namespace-pattern)
+  - [Namespace Pattern: Implicit Binding](#namespace-pattern-implicit-binding)
+  - [Hard binding](#hard-binding)
+- [`new`](#new)
+  - [How it works](#how-it-works)
+- [Default Binding](#default-binding)
+- [Precedence in `this`](#precedence-in-this)
+- [Arrow Function](#arrow-function)
+  - [`!this`](#this)
+  - [Arrow Function with `this`](#arrow-function-with-this)
+- [Class](#class)
+  - [Example](#example)
+  - [Origin](#origin)
+  - [Inheritance](#inheritance)
+  - [Alternative](#alternative)
+  - [`super` keyword](#super-keyword)
+  - [Constructor](#constructor)
+- [Issues](#issues)
+  - [Why `Kyle` is not in the global object?](#why-kyle-is-not-in-the-global-object)
+  - [How to identify Scope?](#how-to-identify-scope)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Object
 
 ### `this`
 > A function's this references the **execution context** for that call, determined entirely by **how the function was called**
-- Execution Context: **Dynamic Scoping**.
 
-#### ! Dynamic Scope
-- `Dynamic Scoping` doesn't work in **Javascript**.
+#### Scope and Closure
 ```javascript
 var teacher = 'Kyle';
 function ask(question){
@@ -50,8 +46,24 @@ function otherClass(){
 }
 otherClass();
 ```
-#### Using `this`
-- **Context** is actually an **object**
+
+#### Object and `this`
+> `Prototype chaining` happens after `this`
+```javascript
+Object.prototype.teacher = 'kyle';
+function ask(question){
+  console.log(this.teacher, question);
+}
+
+function otherClass(){
+  var teacher = "Suzy";
+  ask("Why?")
+}
+otherClass();
+```
+<!-- more -->
+
+#### with `this` and `call`
 ```javascript
 function ask(question){
   console.log(this.teacher, question);
@@ -63,7 +75,6 @@ function otherClass(){
   }
   ask.call(myContext, "Why?")
 }
-
 // ask is called by otherClass within the global scope
 otherClass();
 ```
@@ -81,8 +92,8 @@ workshio.ask("What is implicit binding?");
 ```
 
 #### Namespace Pattern: Implicit Binding
-- `this` is determined during run time.
-- `Implicit Binding` is used for **code reuse**.
+> - `this` is determined during run time.
+> - `Implicit Binding` is used for **code reuse**.
 ```javascript
 function ask(question){
   console.log(this);
@@ -102,7 +113,7 @@ var workshop2 = {
 workshop1.ask("How do I share a method?");
 workshop2.ask("How do I share a method?");
 ```
-#### `call()`
+#### Namespace to Explicit binding
 ```javascript
 function ask(question){
   console.log(this.teacher, question);
@@ -121,8 +132,7 @@ var workshop2 = {
 ask.call(workshop1, "Can I explicitly set context?");
 ask.call(workshop2, "Can I explicitly set context?");
 ```
-
-#### `bind()`
+#### Hard binding
 ```javascript
 var workshop = {
   teacher: 'Kyle',
@@ -135,13 +145,11 @@ setTimeout(workshop.ask, 10, "Lost this?");
 // ask is called in the workshop context
 setTimeout(workshop.ask.bind(workshop), 10, "Hard bound this?");
 ```
-#### Summary
-- If you use so many `this` with `bind`, `call` or `apply`, you use it the hard way.
-- You can also use the `lexical scope` with **closure** to reference data for **predictability** beside `hard binding`.
-- You should really enjoy the **flexibity** of `this`, which is the purpose of creating it.
+
 ### `new`
-- It is **not** for doing **constructor** of classes.
-- It's created to call a function with a **whole new empty object** as the **execution context**.
+> - It's created to call a function with a **whole new empty object** as the **execution context**.
+> - `new` means **new empty execution context**.
+#### Sample
 ```javascript
 function ask(question){
   console.log(this.teacher, question);
@@ -150,6 +158,7 @@ function ask(question){
 // ask will be called within an empty obejct as the execution context
 var newEmptyObject = new ask("What is 'new' doing here?")
 ```
+#### Alternative
 - The same with `call()`
 ```javascript
 function ask(question){
@@ -159,25 +168,28 @@ function ask(question){
 // ask will be called within an empty obejct as the execution context
 ask.call({}, "hello world");
 ```
-- `new` means **new empty execution context**.
-#### Procedure
+#### How it works
 - Create a brand new empty object
 - `* Link that object to another object` - `prototype object`
 - Call function with this set to the new object
 - If function does not return an **object**, assume return of **this**.
+  
 
-### Fallback
-- people prefer the `strict-mode` to prevent auto-creating the `global` object
+### Default Binding
+- no new keyword
+- no call, apply, bind
+- no object context like `asd.ask()`
+- **yes, default binding, is the global; if strict mode, undefined binding.**
 ```javascript
-var teacher = 'Kyle';
+global.teacher = 'Kyle'
 function ask(question){
-  // Kyle
+  // this referes to global object
   console.log(this.teacher, question);
 }
 
 function askAgain(question){
   "use strict";
-  // undefined
+  // this undefined
   console.log(this.teacher, question);
 }
 
@@ -185,15 +197,16 @@ function askAgain(question){
 // so we use the global as the context
 ask("What's hte non-strict-mode default?");
 
-// but in strict-mode, the default context is undefined
+// but in strict-mode, the default context is undefined when the execution context is the global object.
 askAgain("What's the strcit-mode default?");
 ```
 
-### Precedence
+### Precedence in `this`
 - new
 - call() or apply(), bind()
 - context object for example `workshop.ask() `
 - Default binding (except `strict mode`)
+
 ```javascript
 var workshop = {
   teacher: 'Kyle',
@@ -201,43 +214,95 @@ var workshop = {
     console.log(this.teacher, question);
   }
 }
-new (workship.ask.bind(workshop))("What does this do?");
+new (workship.ask.bind(workshop))("What does this do?"); // undefind
 ```
 ### Arrow Function
 #### `!this`
-- There is no this in arrow function
-- Will `lexically` resolve the variable from **inner** to **outer** `scope`
-- You can't use `new` for an arrow function, because it's `not` **hard-bound** and doesn't define `this` keyword.
+> - There is **no** this in arrow function
+> - Will `lexically` resolve the variable from **inner** to **outer** `scope`
+> - You can't use `new` for an arrow function, because it doesn't define `this` keyword.
+#### Function Declaration without `this`
+```javascript
+var workshop = {
+  teacher: 'Kyle',
+  ask(question){
+    setTimeout(
+      function() {
+        // undefined because object doesn't automatically create scope
+        console.log(teacher,question);
+      }
+    , 100);
+  }
+}
+
+// Kyle Is this lexical 'this'?
+workshop.ask("Is this lexical 'this'?")
+```
+
+#### Function Declaration with `this`
+```javascript
+Object.prototype.teacher = 'James';
+var workshop = {
+  teacher: 'Kyle',
+  ask(question){
+    setTimeout(
+      function() {
+        // this refers to Timeout, then tract the prototype chain
+        console.log(this.teacher,question);
+      }
+    , 100);
+  }
+}
+
+// James Is this lexical 'this'?
+workshop.ask("Is this lexical 'this'?")
+```
+
+#### Arrow Function with `this`
+> `this` in Arrow function behaves **lexically**, but still relates to `this` (not its own `this`);
 ```javascript
 var workshop = {
   teacher: 'Kyle',
   ask(question){
     setTimeout(() => {
-      console.log(this.teacher, question)
+      console.log(this);
     }, 100);
   }
 }
 
+// Kyle Is this lexical 'this'?
 workshop.ask("Is this lexical 'this'?")
 ```
-#### Is Object Scope?
-- But How to identify a scope
+- the `outside scope` is the `ask` function
+- the `outside scope` is not the setTimeout because there it encloses with `()` rather than `{}`
+  - But not all {} are scopes - Object{}
+  - function()`{}` is **scope**.
+ - **this** of `ask` function is the workshop object.
+> it still traces **this**, but `not` its own.
+
+#### Arrow Function without `this`
+> - the outside scope is `ask`, no teacher
+> - the outside scope is `global`, no teacher
+> - `undefined`.
 ```javascript
 var workshop = {
   teacher: 'Kyle',
-  ask: (question) => {
-    console.log(this.teacher, question);
+  ask(question){
+    setTimeout(
+      () => {
+      console.log(teacher);
+    }
+    , 100);
   }
 }
-// the scope outside ask is the global, since object does not define scope.
-workshop.ask("What happened to 'this'?");
-// arrow function doesn't have this keyword -> undefined
-workshop.ask.call(workshop, "Still no 'this'?");
+
+workshop.ask('What?')
 ```
-> We recommend using the `lexical` way by arrow function.
-### `Class` Keyword
-- `Class` keyword is a **syntax sugar** for a **layer** on top of the `prototype system`.
-#### class example
+
+### Class
+> `Class` keyword is just a **syntax sugar** for a **layer** on top of the `prototype system`.
+
+#### Example
 ```javascript
 class Workshop {
   constructor(teacher){
@@ -254,6 +319,20 @@ var reactJS = new Workshop("Suzy");
 deepJS.ask("asd");
 reactJS.ask("asdss")
 ```
+#### Origin
+```javascript
+function Workshop(teacher){
+  this.teacher = teacher;
+}
+
+Workshop.protoype.ask = function(question){
+  console.log(this.teacher, question);
+}
+
+var deepJS = new Workshop('Kyle');
+var reactJS = new Workshop('Jame');
+```
+
 #### Inheritance
 ```javascript
 class Workshop {
@@ -275,7 +354,35 @@ class AnotherWorkshop extends Workshop {
 var JSRecentParts = new AnotherWorkshop("Kyle");
 JSRecentParts.speakUp("Are classes getting better?");
 ```
+#### Alternative
+```javascript
+function Workshop(teacher){
+  this.teacher = teacher;
+}
+
+Workshop.protoype.ask = function(question){
+  console.log(this.teacher, question);
+}
+
+// link constructor
+function AnotherWorkshop(teacher){
+  Workshop.call(this,teacher);
+}
+// link prototype
+Another.prototype = Object.create(Workshop.prototype);
+
+// add new method
+AnotherWorkshop.prototype.speakUp = function(msg){
+  this.ask(msg.toUppderCase());
+}
+
+// the same thing
+var JSRecentParts = new AnotherWorkshop("Kyle");
+JSRecentParts.speakUp("Are classes getting better?");
+```
+
 #### `super` keyword
+> `super` is detemined during complile time - lexically scoped
 ```javascript
 class Workshop {
   constructor(teacher){
@@ -296,7 +403,8 @@ class AnotherWorkshop extends Workshop {
 var JSRecentParts = new AnotherWorkshop("Kyle");
 JSRecentParts.speakUp("Are classes getting better?");
 ```
-#### `this` still dynamic
+
+#### `this` still dynamic in Class
 ```javascript
 class Workshop {
   constructor(teacher){
@@ -311,66 +419,62 @@ class Workshop {
 var deepJS = new Workshop("Kyle");
 setTimeout(deepJS.ask, 100, "Still losing 'this'?");
 ```
-#### Save Class `this`
+
+#### Constructor
 ```javascript
 class Workshop {
   constructor(teacher){
     this.teacher = teacher;
-    // this will create ask to any instance
+    // this will create ask() to any instance (execution context)
     this.ask = question => console.log(this.teacher, question);
   }
 
   // this will create ask in prototype
-  // ask(){
-
-  // }
+  // ask(){}
 }
 
 var deepJS = new Workshop('Kyle');
 setTimeout(deepJS.ask, 100, "Is 'this' fixed?");
 ```
-### 
 
-## Guesses
-### difference between `var x` amd `x`
-- `x` will be attached to execution context
-- `var x` will not be
-
-### Interview Question
+### Issues
+#### Why `Kyle` is not in the global object?
 ```javascript
-var x = "1"; 
-var y = 1; 
-a = x + y;
-console.log(a);
-console.log(x == y);
-console.log(x === y);
-```
-```javascript
-var j =0;
-for(var i=0; i<10; i++){
-  // console.log(i);
-setTimeout(function(){
-   j +=i;
-},i*1000)
-}
-```
-
-### One interesting thing
-- no new keyword
-- no call, apply, bind
-- no object context like `asd.ask()`
-- **yes, default binding, is the global; if strict mode, undefined binding.**
-```javascript
-'use strict'
+// Object.prototype.teacher = 'kyle';
+global.teacher = 'James'
 var teacher = 'Kyle';
 function ask(question){
-  console.log(this);
   console.log(this.teacher, question);
 }
 
 function otherClass(){
-  ask("why")
+  var teacher = "Suzy";
+  // the object context is not otherClass()
+  ask("Why?")
 }
-
 otherClass();
+```
+> - `global object `is different from `global scope`
+> - `closure` can happen both on **scope** or **object** perspectives
+> - `this` can **only** happen in the **object** perspective
+> - `var teacher` is defined in the **global** scope
+#### Scope and Object
+- `teacher` trace `lexical scope`
+- `this.teacher` trace **execution context** and then **prototype chain**
+
+#### How to identify Scope?
+- `this`'s scope will the be **global object** rather than **workshop** because `object is not a scope`
+- global **scope** doesn't have `this`, so by default it is `{}`;
+- `Only` **function scope** has `this`
+```javascript
+var workshop = {
+  teacher: 'Kyle',
+  ask: (question) => {
+    console.log(this.teacher, question);
+  }
+}
+// the scope outside ask is the global, since object does not define scope.
+console.log(workshop.ask("What happened to 'this'?"))
+// arrow function doesn't have this keyword -> undefined
+workshop.ask.call(workshop, "Still no 'this'?");
 ```
