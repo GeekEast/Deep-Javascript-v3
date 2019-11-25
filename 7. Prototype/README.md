@@ -11,7 +11,7 @@
 - [Issues](#issues)
   - [Override Binding](#override-binding)
   - [`prototype` on Arrow Function](#prototype-on-arrow-function)
-- [Shadow Prototypes](#shadow-prototypes)
+  - [Shadow Prototypes](#shadow-prototypes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,5 +157,5 @@ JSRecentParts.speakUp('Is this actually inheritance?');
 - Arrow Function doesn't have any prototype.
 - So you can not call `new` on an arrow function.
 
-### Shadow Prototypes
+#### Shadow Prototypes
 - **shadow** means **override**.
