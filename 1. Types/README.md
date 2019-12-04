@@ -11,7 +11,7 @@
   - [Special NaN](#special-nan)
   - [Special -0](#special--0)
 - [Constructor Time](#constructor-time)
-- [Commons:](#commons)
+- [Commons](#commons)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,7 +157,7 @@ String();
 Number();
 Boolean()
 ```
-### Commons:
+### Commons
 - Don't use MDN, use [ecma-262](https://www.ecma-international.org/ecma-262/9.0/#sec-tostring)
 - Polyfill Pattern
 ```javascript
