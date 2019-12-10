@@ -2,165 +2,31 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table Of Content
 
-- [Trap All in One](#trap-all-in-one)
-- [Interview Questions](#interview-questions)
-  - [Coercion](#coercion)
-  - [Tricky one](#tricky-one)
-  - [Why `Kyle` is not in the global object?](#why-kyle-is-not-in-the-global-object)
-  - [How to identify Scope?](#how-to-identify-scope)
-- [Commons:](#commons)
-  - [Scope and Object](#scope-and-object)
-  - [Terms](#terms)
-  - [Lexical Scope](#lexical-scope)
-  - [Dynamic scope](#dynamic-scope)
-  - [Override Binding](#override-binding)
-  - [`prototype` on Arrow Function](#prototype-on-arrow-function)
-  - [Shadow Prototypes](#shadow-prototypes)
-- [Reference](#reference)
+- [v8引擎基本原理](#v8%E5%BC%95%E6%93%8E%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86)
+  - [编程语言类型](#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B)
+    - [编译型语言](#%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80)
+    - [解释型语言](#%E8%A7%A3%E9%87%8A%E5%9E%8B%E8%AF%AD%E8%A8%80)
+  - [V8](#v8)
+- [内存空间](#%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4)
+  - [代码空间](#%E4%BB%A3%E7%A0%81%E7%A9%BA%E9%97%B4)
+  - [栈空间](#%E6%A0%88%E7%A9%BA%E9%97%B4)
+  - [堆空间](#%E5%A0%86%E7%A9%BA%E9%97%B4)
+- [执行上下文](#%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87)
+  - [何时开始](#%E4%BD%95%E6%97%B6%E5%BC%80%E5%A7%8B)
+  - [生命周期](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+- [闭包](#%E9%97%AD%E5%8C%85)
+  - [定义](#%E5%AE%9A%E4%B9%89)
+  - [产生](#%E4%BA%A7%E7%94%9F)
+  - [例子](#%E4%BE%8B%E5%AD%90)
+  - [作用](#%E4%BD%9C%E7%94%A8)
+  - [销毁](#%E9%94%80%E6%AF%81)
+- [this](#this)
+  - [设置优先级](#%E8%AE%BE%E7%BD%AE%E4%BC%98%E5%85%88%E7%BA%A7)
+  - [解决this太活跃的问题](#%E8%A7%A3%E5%86%B3this%E5%A4%AA%E6%B4%BB%E8%B7%83%E7%9A%84%E9%97%AE%E9%A2%98)
+- [Arrow Function](#arrow-function)
+- [注意的点](#%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-### Trap All in One
-- What's the result?
-- Explain what happend behind the scene?
-<div style="text-align:center; margin:auto"><img src="img/2019-11-24-23-13-33.png"></div>
-
-### Interview Questions
-#### Coercion
-```javascript
-var x = "1"; 
-var y = 1; 
-a = x + y;
-console.log(a);
-console.log(x == y);
-console.log(x === y);
-```
-#### Tricky one
-```javascript
-var j =0;
-for(var i=0; i<10; i++){
-  // console.log(i);
-setTimeout(function(){
-   j +=i;
-},i*1000)
-}
-```
-
-#### Why `Kyle` is not in the global object?
-```javascript
-// Object.prototype.teacher = 'kyle';
-global.teacher = 'James'
-var teacher = 'Kyle';
-function ask(question){
-  console.log(this.teacher, question);
-}
-
-function otherClass(){
-  var teacher = "Suzy";
-  // the object context is not otherClass()
-  ask("Why?")
-}
-otherClass();
-```
-> - `global object `is different from `global scope`
-> - `closure` can happen both on **scope** or **object** perspectives
-> - `this` can **only** happen in the **object** perspective
-> - `var teacher` is defined in the **global** scope
-
-#### How to identify Scope?
-- `this`'s scope will the be **global object** rather than **workshop** because `object is not a scope`
-- global **scope** doesn't have `this`, so by default it is `{}`;
-- `Only` **function scope** has `this`
-```javascript
-var workshop = {
-  teacher: 'Kyle',
-  ask: (question) => {
-    console.log(this.teacher, question);
-  }
-}
-// the scope outside ask is the global, since object does not define scope.
-console.log(workshop.ask("What happened to 'this'?"))
-// arrow function doesn't have this keyword -> undefined
-workshop.ask.call(workshop, "Still no 'this'?");
-```
-
-### Commons:
-- Don't use MDN, use [ecma-262](https://www.ecma-international.org/ecma-262/9.0/#sec-tostring)
-- Polyfill Pattern
-```javascript
-if (!Object.is) {
-  Object.is = function ObjectIs() {
-    ...
-  }
-}
-```
-#### Scope and Object
-- `teacher` trace `lexical scope`
-- `this.teacher` trace **execution context** and then **prototype chain**
-
-#### Terms
-- **Shadowing**: have two variables in **different** scopes with the **same** name
-
-- **Left and Right Position**
-  - **Left**: the variable to be signed a value to
-  - **Right**: the value to be assigned to a varibale.
-- **Compile Time**
-  - declare the left side things  
-- **Run Time**
-  - execute the right side things
-- **parameter vs argument**
-  - **parameter**: left side thing for obtaining values
-  - **argument**: right side thing for extracting values
-
-#### Lexical Scope
-- AkA: **static scope**
-- The scope is decided during the **compile** stage
-```c
-void fun()
-{
-    int x = 5;
-    void fun2()
-    {
-        printf("%d", x);
-    }
-}
-```
-#### Dynamic scope
-- The scope is decided in the **run** stage, depends on the call chain of method.
-```c
-void fun()
-{
-    printf("%d", x);
-}
-
-void dummy1()
-{
-    int x = 5;
-    fun();
-}
-
-void dummy2()
-{
-    int x = 10;
-    fun();
-}
-```
-
-#### Override Binding
-- If you have already use `bind`,
-- You can only use `new` to override the binding object;
-
-#### `prototype` on Arrow Function
-- Arrow Function doesn't have `this`.
-- Arrow Function doesn't have any prototype.
-- So you can not call `new` on an arrow function.
-
-#### Shadow Prototypes
-- **shadow** means **override**.
-
-### Reference
-- [你不知道的JS](./Reference/)
-
 
 ### v8引擎基本原理
 - **编译器**: Compiler
