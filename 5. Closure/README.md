@@ -120,7 +120,7 @@ workshop.ask("It's a module, right?");
 #### Factory Pattern
 ```javascript
 function WorkshopModule(teacher) {
-  var public API = {ask, };
+  var publicAPI = {ask, };
   return publicAPI;
 
   function ask(question){
