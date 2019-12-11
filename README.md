@@ -188,7 +188,8 @@ get()();
 > 本质上都是将`this`机制转化为`scope chain`机制
 
 ### Arrow Function
-- 不会创建新的执行上下文
+- 会创建新的执行上下文
+- 会创新新的作用域
 - `this`的查找依赖于Scope Chain
 ```javascript
 var myObj = {
