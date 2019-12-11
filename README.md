@@ -190,6 +190,7 @@ get()();
 ### Arrow Function
 - 会创建新的执行上下文
 - 会创新新的作用域
+- 从外部函数返回后，会产生闭包
 - `this`的查找依赖于Scope Chain
 ```javascript
 var myObj = {
