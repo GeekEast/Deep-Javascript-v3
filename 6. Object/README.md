@@ -218,8 +218,8 @@ new (workship.ask.bind(workshop))("What does this do?"); // undefind
 ```
 ### Arrow Function
 #### `!this`
-> - There is **no** this in arrow function
-> - Will `lexically` resolve the variable from **inner** to **outer** `scope`
+> - will find the nearest function x lexicially, and use the `this` of x
+> - do `lexically` searching at first and then use the **normal** `this` rules.
 > - You can't use `new` for an arrow function, because it doesn't define `this` keyword.
 #### Function Declaration without `this`
 ```javascript
