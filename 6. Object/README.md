@@ -463,9 +463,6 @@ otherClass();
 - `this.teacher` trace **execution context** and then **prototype chain**
 
 #### How to identify Scope?
-- `this`'s scope will the be **global object** rather than **workshop** because `object is not a scope`
-- global **scope** doesn't have `this`, so by default it is `{}`;
-- `Only` **function scope** has `this`
 ```javascript
 var workshop = {
   teacher: 'Kyle',
@@ -478,3 +475,6 @@ console.log(workshop.ask("What happened to 'this'?"))
 // arrow function doesn't have this keyword -> undefined
 workshop.ask.call(workshop, "Still no 'this'?");
 ```
+- `this`'s scope will the be **global object** rather than **workshop** because `object is not a scope`
+- global **scope** doesn't have `this`, so by default it is `{}`;
+- `Only` **function scope** has `this`
