@@ -204,7 +204,7 @@ askAgain("What's the strcit-mode default?");
 ### Precedence in `this`
 - new
 - call() or apply(), bind()
-- context object for example `workshop.ask() `
+- context object for example `workshop.ask()`(only bind to the nearest object)
 - Default binding (except `strict mode`)
 
 ```javascript
