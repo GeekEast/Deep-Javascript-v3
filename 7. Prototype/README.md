@@ -149,8 +149,7 @@ JSRecentParts.speakUp('Is this actually inheritance?');
 
 ### Issues
 #### Override Binding
-- If you have already use `bind`,
-- You can only use `new` to override the binding object;
+- If you have already use `bind`, You can only use `new` to override the binding object;
 
 #### `prototype` on Arrow Function
 - Arrow Function doesn't have `this`.
