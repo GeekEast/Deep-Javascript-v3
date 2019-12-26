@@ -170,7 +170,7 @@ ask.call({}, "hello world");
 ```
 #### How it works
 - Create a brand new empty object
-- `* Link that object to another object` - `prototype object`
+- `Link that object to another object` - `prototype object`
 - Call function with this set to the new object
 - If function does not return an **object**, assume return of **this**.
   
