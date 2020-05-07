@@ -179,7 +179,7 @@ get()();
 - `new` 
 - `call`/`bind`/`apply` **死绑定**
 - `object context`
-- `global`(non-strict)/`undefined`(strict)
+- `global or Window`(non-strict)/`undefined`(strict)
 
 #### 解决this太活跃的问题
 - 保存`this`为`self`变量然后传入(从外层到内层)
